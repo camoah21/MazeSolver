@@ -1,63 +1,53 @@
 package test.java.com.chrisamoah.mazesolver;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertThrows;
-
 import org.junit.Test;
 
 import main.java.com.chrisamoah.mazesolver.MazeSolver;
 
 public class MazeSolverTest {
 
-	@Test
-	public void testSimpleMaze() {
-	    char[][] maze = {
-	        {'S', ' ', ' ', ' ', 'X', 'X', 'X', 'X'},
-	        {'X', 'X', ' ', 'X', 'X', ' ', ' ', ' '},
-	        {'X', 'X', ' ', 'X', 'X', 'X', 'X', ' '},
-	        {'X', ' ', ' ', ' ', ' ', ' ', 'X', 'E'},
-	        {'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'}
-	    };
-	    assertTrue(MazeSolver.solveMaze(maze));
-	}
-
+    @Test
+    public void testSolvableMaze() {
+        char[][] maze = {
+            {'S', ' ', 'X', ' '},
+            {' ', 'X', ' ', 'X'},
+            {' ', ' ', ' ', 'X'},
+            {'X', 'X', 'E', ' '}
+        };
+        assertTrue("Maze should be solvable", MazeSolver.solveMaze(maze));
+    }
 
     @Test
     public void testUnsolvableMaze() {
         char[][] maze = {
-            {'S', '#', ' ', ' ', '#', '#', '#', '#'},
-            {'#', '#', ' ', '#', '#', ' ', ' ', ' '},
-            {'#', '#', ' ', '#', '#', '#', '#', ' '},
-            {'#', ' ', ' ', ' ', ' ', ' ', '#', 'E'},
-            {'#', '#', '#', '#', '#', '#', '#', '#'}
+            {'S', 'X', 'X', ' '},
+            {' ', 'X', ' ', 'X'},
+            {' ', 'X', ' ', 'X'},
+            {'X', 'X', 'E', 'X'}
         };
-        assertFalse(MazeSolver.solveMaze(maze));
+        assertFalse("Maze should be unsolvable", MazeSolver.solveMaze(maze));
     }
 
-    @Test
-    public void testMazeWithNoStart() {
+    @Test(expected = IllegalArgumentException.class)
+    public void testNoStart() {
         char[][] maze = {
-            {' ', ' ', ' ', ' ', '#', '#', '#', '#'},
-            {'#', '#', ' ', '#', '#', ' ', ' ', ' '},
-            {'#', '#', ' ', '#', '#', '#', '#', ' '},
-            {'#', ' ', ' ', ' ', ' ', ' ', '#', 'E'},
-            {'#', '#', '#', '#', '#', '#', '#', '#'}
+            {' ', ' ', 'X', ' '},
+            {' ', 'X', ' ', 'X'},
+            {' ', ' ', ' ', 'X'},
+            {'X', 'X', 'E', ' '}
         };
-        assertThrows(IllegalArgumentException.class, () -> MazeSolver.solveMaze(maze));
+        MazeSolver.solveMaze(maze);
     }
 
-    @Test
-    public void testMazeWithNoEnd() {
+    @Test(expected = IllegalArgumentException.class)
+    public void testNoEnd() {
         char[][] maze = {
-            {'S', ' ', ' ', ' ', '#', '#', '#', '#'},
-            {'#', '#', ' ', '#', '#', ' ', ' ', ' '},
-            {'#', '#', ' ', '#', '#', '#', '#', ' '},
-            {'#', ' ', ' ', ' ', ' ', ' ', '#', ' '},
-            {'#', '#', '#', '#', '#', '#', '#', '#'}
+            {'S', ' ', 'X', ' '},
+            {' ', 'X', ' ', 'X'},
+            {' ', ' ', ' ', 'X'},
+            {'X', 'X', ' ', ' '}
         };
-        assertThrows(IllegalArgumentException.class, () -> MazeSolver.solveMaze(maze));
+        MazeSolver.solveMaze(maze);
     }
-
-    // Add more test cases as needed...
-
 }
